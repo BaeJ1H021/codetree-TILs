@@ -5,15 +5,19 @@ using namespace std;
 int dy[4] ={-1,1,0,0};
 int dx[4] ={0,0,-1,1};
 
+bool visited[110][110];
+
 int n,k;
 int arr[110][110];
 int ans = 0;
 
 void bfs(int y, int x)
 {
-    int cnt = 1;
+    // 이미 들른 경우.
+    if(visited[y][x])
+        return;
+
     queue<pair<int,int>> q;
-    bool visited[110][110];
     visited[y][x] = true;
     q.push({y,x});
 
@@ -32,12 +36,10 @@ void bfs(int y, int x)
             if(!visited[ny][nx] && arr[ny][nx] ==0)
             {
                 visited[ny][nx] = true;
-                cnt++;
                 q.push({ny,nx});
             }
         }
     }
-    ans = max(ans, cnt);
 }
 
 int main() {
@@ -57,6 +59,16 @@ int main() {
         cin >> a >> b;
         bfs(a,b);
     }
-    cout<< ans;
+
+    int cnt = 0;
+    for(int i=1;i<=n;i++)
+    {
+        for(int j=1;j<=n;j++)
+        {
+            if(visited[i][j])
+                cnt++;
+        }
+    }
+    cout<< cnt;
     return 0;
 }
